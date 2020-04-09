@@ -23,8 +23,9 @@ class TaxCalc():
         NET, spouse_NET = self.income - MPF[0], self.spouse_income - MPF[1]
         return [NET, spouse_NET]
 
-    def Tax(self, NCI: float):
-        tax, tax_standard = 0, NCI*standard_rate
+    def Tax(self, NCI: float, t = None):
+        allowance = married_allowance if t else basic_allowance
+        tax, tax_standard = 0, (NCI+allowance)*standard_rate
         for charge_rate in tax_bracket: # Calc Tax by Tax Bracket
             if NCI <= tax_stage:
                 tax += NCI*charge_rate
@@ -45,7 +46,7 @@ class TaxCalc():
         # Joint Assessment, Net Chargeable Income(NCI) = Total Income - Deductions(MPF) - Allowances
         Joint_NI = sum(self.NetIncome())
         Joint_NCI = Joint_NI - married_allowance if Joint_NI > married_allowance else 0
-        return self.Tax(Joint_NCI)
+        return self.Tax(Joint_NCI, 'join')
 
 def main():
     sp.call('cls', shell=True)

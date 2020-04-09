@@ -1,4 +1,5 @@
 # Unit Test for tax.py
+# To Run this Unit Test, run "python tax_text.py"
 # TaxCalc(self income, spouse income)
 import unittest
 from tax import TaxCalc
@@ -49,12 +50,10 @@ class TestTax(unittest.TestCase):
 
     def test_case_5(self):
         # Testing Standard Rate which is over 15% of Net Chargeable Income
-        # Husband: 1000000, Wife: 1000000
-        # Using Tax Bracket and Remaining Balance : 271000
-        # Using Standard Rate                     : 255000
-        # Therefore, the output should be 255000 which is the lower output
-        Calc = TaxCalc(1000000, 1000000)
-        self.assertEqual(Calc.Joint(), 255000, 'Error: Standard Rate Miscalculated')
+        # Husband: 5000000, Wife: 8000000
+        # Using Standard Rate   : 747300, 1197300
+        Calc = TaxCalc(5000000, 8000000)
+        self.assertEqual(Calc.Separate(), [747300, 1197300], 'Error: Standard Rate Miscalculated')
 
     def test_case_6(self):
         # Normal Case
